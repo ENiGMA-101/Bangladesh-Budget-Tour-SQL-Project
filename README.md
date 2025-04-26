@@ -29,9 +29,17 @@ The database serves as a comprehensive resource for budget-conscious travelers l
 
 ---
 
+## ER Diagram
+
+```-- Will update from Sanjid --```
+
+
+
+
+
 ## Schema Diagram
 
-###Using Github :
+### Using Github :
 ```mermaid
 erDiagram
     DESTINATIONS {
@@ -125,7 +133,7 @@ erDiagram
     CUSTOMERS ||--o{ BOOKINGS : "makes"
 ```
 
-###Using dbdiagram.io :
+### Using dbdiagram.io :
 ![touristDB](https://github.com/user-attachments/assets/2ee78d69-ee0d-4670-b98e-73265bd4f35d)
 
 
