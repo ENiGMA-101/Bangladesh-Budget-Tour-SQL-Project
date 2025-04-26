@@ -31,6 +31,7 @@ The database serves as a comprehensive resource for budget-conscious travelers l
 
 ## Schema Diagram
 
+###Using Github :
 ```mermaid
 erDiagram
     DESTINATIONS {
@@ -123,6 +124,10 @@ erDiagram
     TOURPACKAGES ||--o{ BOOKINGS : "booked as"
     CUSTOMERS ||--o{ BOOKINGS : "makes"
 ```
+
+###Using dbdiagram.io :
+![touristDB](https://github.com/user-attachments/assets/2ee78d69-ee0d-4670-b98e-73265bd4f35d)
+
 
 ### Tables and Attributes
 
