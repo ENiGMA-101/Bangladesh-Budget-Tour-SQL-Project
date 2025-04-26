@@ -179,4 +179,4 @@ ORDER BY g.GuideName;
 ## Conclusion
 This database system provides a comprehensive solution for managing information about underrated tourist destinations in Bangladesh that can be visited on a budget. The system enables budget-conscious travelers to discover new places, find affordable accommodations, and plan their trips efficiently.
 
-For the SQL file and further details, refer to the accompanying [SQL Script](./TourismDatabase.sql).
+For the SQL file and further details, refer to the accompanying [SQL Script](./tourismDB.sql).
