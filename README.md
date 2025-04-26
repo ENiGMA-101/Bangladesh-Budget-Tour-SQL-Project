@@ -30,6 +30,100 @@ The database serves as a comprehensive resource for budget-conscious travelers l
 ---
 
 ## Schema Diagram
+
+```mermaid
+erDiagram
+    DESTINATIONS {
+        int DestinationID PK
+        string DestinationName
+        string District
+        text Description
+        string BestTimeToVisit
+        decimal AverageCostPerDay
+        string ImageURL
+    }
+    
+    ACCOMMODATIONS {
+        int AccommodationID PK
+        int DestinationID FK
+        string Name
+        string Type
+        decimal PricePerNight
+        string ContactNumber
+        string Address
+        decimal Rating
+    }
+    
+    ATTRACTIONS {
+        int AttractionID PK
+        int DestinationID FK
+        string AttractionName
+        text Description
+        decimal EntryFee
+        string OpeningHours
+        string VisitDuration
+    }
+    
+    TRANSPORTATION {
+        int TransportationID PK
+        int DestinationID FK
+        string TransportType
+        string RouteDetails
+        decimal AverageCost
+        string TravelDuration
+        string Frequency
+    }
+    
+    TOURPACKAGES {
+        int PackageID PK
+        string PackageName
+        text Description
+        int Duration
+        decimal Price
+        int MaxGroupSize
+        text Inclusions
+        string DestinationsCovered
+    }
+    
+    TOURGUIDES {
+        int GuideID PK
+        string GuideName
+        string ContactNumber
+        string Languages
+        int Experience
+        decimal DailyRate
+        decimal Rating
+        string SpecializedDestinations
+    }
+    
+    CUSTOMERS {
+        int CustomerID PK
+        string CustomerName
+        string Email
+        string Phone
+        string Address
+    }
+    
+    BOOKINGS {
+        int BookingID PK
+        int CustomerID FK
+        int PackageID FK
+        int GuideID FK
+        date BookingDate
+        date TravelDate
+        int NumberOfPeople
+        decimal TotalCost
+        string PaymentStatus
+    }
+    
+    DESTINATIONS ||--o{ ACCOMMODATIONS : "has"
+    DESTINATIONS ||--o{ ATTRACTIONS : "has"
+    DESTINATIONS ||--o{ TRANSPORTATION : "accessible by"
+    TOURGUIDES }o--o{ BOOKINGS : "assigned to"
+    TOURPACKAGES ||--o{ BOOKINGS : "booked as"
+    CUSTOMERS ||--o{ BOOKINGS : "makes"
+```
+
 ### Tables and Attributes
 
 1. **Destinations Table**  
