@@ -31,110 +31,14 @@ The database serves as a comprehensive resource for budget-conscious travelers l
 
 ## ER Diagram
 
-```-- Will update from Sanjid --```
-
+![ERDIAGRAM1 drawio](https://github.com/user-attachments/assets/108fde3e-e759-47fa-92f5-86603c675a2b)
 
 
 
 
 ## Schema Diagram
 
-### Using Github :
-```mermaid
-erDiagram
-    DESTINATIONS {
-        int DestinationID PK
-        string DestinationName
-        string District
-        text Description
-        string BestTimeToVisit
-        decimal AverageCostPerDay
-        string ImageURL
-    }
-    
-    ACCOMMODATIONS {
-        int AccommodationID PK
-        int DestinationID FK
-        string Name
-        string Type
-        decimal PricePerNight
-        string ContactNumber
-        string Address
-        decimal Rating
-    }
-    
-    ATTRACTIONS {
-        int AttractionID PK
-        int DestinationID FK
-        string AttractionName
-        text Description
-        decimal EntryFee
-        string OpeningHours
-        string VisitDuration
-    }
-    
-    TRANSPORTATION {
-        int TransportationID PK
-        int DestinationID FK
-        string TransportType
-        string RouteDetails
-        decimal AverageCost
-        string TravelDuration
-        string Frequency
-    }
-    
-    TOURPACKAGES {
-        int PackageID PK
-        string PackageName
-        text Description
-        int Duration
-        decimal Price
-        int MaxGroupSize
-        text Inclusions
-        string DestinationsCovered
-    }
-    
-    TOURGUIDES {
-        int GuideID PK
-        string GuideName
-        string ContactNumber
-        string Languages
-        int Experience
-        decimal DailyRate
-        decimal Rating
-        string SpecializedDestinations
-    }
-    
-    CUSTOMERS {
-        int CustomerID PK
-        string CustomerName
-        string Email
-        string Phone
-        string Address
-    }
-    
-    BOOKINGS {
-        int BookingID PK
-        int CustomerID FK
-        int PackageID FK
-        int GuideID FK
-        date BookingDate
-        date TravelDate
-        int NumberOfPeople
-        decimal TotalCost
-        string PaymentStatus
-    }
-    
-    DESTINATIONS ||--o{ ACCOMMODATIONS : "has"
-    DESTINATIONS ||--o{ ATTRACTIONS : "has"
-    DESTINATIONS ||--o{ TRANSPORTATION : "accessible by"
-    TOURGUIDES }o--o{ BOOKINGS : "assigned to"
-    TOURPACKAGES ||--o{ BOOKINGS : "booked as"
-    CUSTOMERS ||--o{ BOOKINGS : "makes"
-```
-
-### Using dbdiagram.io :
-![touristDB](https://github.com/user-attachments/assets/2ee78d69-ee0d-4670-b98e-73265bd4f35d)
+```-- Will update from Sanjid --```
 
 
 ### Tables and Attributes
@@ -226,25 +130,17 @@ erDiagram
 
 ## SQL Queries and Results
 
-### Query 1: Find all destinations with average cost per day less than 1000 BDT
+### Query 1: Retrieve all tourist spots with their descriptions and entry fees
 ```sql
-SELECT DestinationName, District, AverageCostPerDay
-FROM Destinations
-WHERE AverageCostPerDay < 1000
-ORDER BY AverageCostPerDay;
+SELECT Spot_ID, Spot_Name, Description, Entry_Fee
+FROM Tourist_Spots
+ORDER BY Spot_Name;
 ```
 
 **Result:**
-| DestinationName       | District    | AverageCostPerDay |
-|-----------------------|-------------|-------------------|
-| Birishiri            | Netrokona   | 700.00            |
-| Monpura Island       | Bhola       | 700.00            |
-| Nijhum Dwip          | Noakhali    | 750.00            |
-| Lalakhal             | Sylhet      | 780.00            |
-| Ratargul Swamp Forest| Sylhet      | 800.00            |
-| Amiakhum Waterfall   | Bandarban   | 850.00            |
-| Boga Lake            | Bandarban   | 900.00            |
-| Tanguar Haor         | Sunamganj   | 950.00            |
+
+![1](https://github.com/user-attachments/assets/f51bc34e-5f15-48af-a451-3e952df66dd0)
+
 
 ---
 
