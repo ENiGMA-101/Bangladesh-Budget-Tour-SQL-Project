@@ -1,4 +1,4 @@
-# Tourism Database Project: Underrated Places in Bangladesh at Low Cost
+# Tourism Database Project: Tour Underrated Places in Bangladesh at Low Cost
 
 ## Topic Description
 This project focuses on creating a database system to manage information about underrated tourist destinations in Bangladesh that can be visited on a budget. The system will help tourists discover lesser-known places, understand cost structures, find suitable accommodations, explore local transportation options, and learn about the unique attractions each location offers. 
