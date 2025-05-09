@@ -43,89 +43,145 @@ The database serves as a comprehensive resource for budget-conscious travelers l
 
 ### Tables and Attributes
 
-1. **Destinations Table**  
-   Stores information about tourist destinations.
-   - `DestinationID` (PK)
-   - `DestinationName`
-   - `District`
-   - `Description`
-   - `BestTimeToVisit`
-   - `AverageCostPerDay`
-   - `ImageURL`
+# Database Schema: Tourism Management System
 
-2. **Accommodations Table**  
-   Stores lodging details near tourist spots.
-   - `AccommodationID` (PK)
-   - `DestinationID` (FK)
-   - `Name`
-   - `Type` (Hotel, Homestay, Hostel, etc.)
-   - `PricePerNight`
-   - `ContactNumber`
-   - `Address`
-   - `Rating`
+## Tables and Attributes
 
-3. **Attractions Table**  
-   Stores attractions for each destination.
-   - `AttractionID` (PK)
-   - `DestinationID` (FK)
-   - `AttractionName`
-   - `Description`
-   - `EntryFee`
-   - `OpeningHours`
-   - `VisitDuration`
+### 1. Tourist_Spots Table
+Stores information about various tourist spots.
 
-4. **Transportation Table**  
-   Stores transportation options for destinations.
-   - `TransportationID` (PK)
-   - `DestinationID` (FK)
-   - `TransportType`
-   - `RouteDetails`
-   - `AverageCost`
-   - `TravelDuration`
-   - `Frequency`
+- **Spot_ID** (PK): Unique identifier for each tourist spot.
+- **Spot_Name**: Name of the tourist spot.
+- **Location**: Location of the tourist spot.
+- **Description**: Brief description of the spot.
+- **Entry_Fee**: Entry fee for the spot (default: 0.00).
+- **Best_Time_to_Visit**: Recommended time to visit.
 
-5. **TourPackages Table**  
-   Stores information about curated tour packages.
-   - `PackageID` (PK)
-   - `PackageName`
-   - `Description`
-   - `Duration`
-   - `Price`
-   - `MaxGroupSize`
-   - `Inclusions`
-   - `DestinationsCovered`
+---
 
-6. **TourGuides Table**  
-   Stores information about available tour guides.
-   - `GuideID` (PK)
-   - `GuideName`
-   - `ContactNumber`
-   - `Languages`
-   - `Experience`
-   - `DailyRate`
-   - `Rating`
-   - `SpecializedDestinations`
+### 2. Tours Table
+Stores details about tours offered for tourist spots.
 
-7. **Customers Table**  
-   Stores customer details.
-   - `CustomerID` (PK)
-   - `CustomerName`
-   - `Email`
-   - `Phone`
-   - `Address`
+- **Tour_ID** (PK): Unique identifier for each tour.
+- **Tour_Name**: Name of the tour.
+- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
+- **Tour_Fee**: Fee for the tour (default: 0.00).
+- **Duration**: Duration of the tour.
 
-8. **Bookings Table**  
-   Stores booking records.
-   - `BookingID` (PK)
-   - `CustomerID` (FK)
-   - `PackageID` (FK)
-   - `GuideID` (FK)
-   - `BookingDate`
-   - `TravelDate`
-   - `NumberOfPeople`
-   - `TotalCost`
-   - `PaymentStatus`
+---
 
+### 3. Tour_Guides Table
+Stores information about tour guides.
+
+- **Guide_ID** (PK): Unique identifier for each guide.
+- **Guide_Name**: Name of the tour guide.
+- **Contact_Info**: Contact details (unique).
+- **Language_Skills**: Languages the guide can speak.
+- **Experience_Years**: Years of experience (must be ≥ 0).
+
+---
+
+### 4. Tour_Guide_Assignments Table
+Links guides to specific tours.
+
+- **Assignment_ID** (PK): Unique identifier for each assignment.
+- **Tour_ID** (FK): Associated tour (linked to `Tours`).
+- **Guide_ID** (FK): Associated guide (linked to `Tour_Guides`).
+
+---
+
+### 5. Customers Table
+Stores information about customers.
+
+- **Customer_ID** (PK): Unique identifier for each customer.
+- **Customer_Name**: Name of the customer.
+- **Contact_Info**: Contact details (unique).
+- **Preferred_Language**: Language preferred by the customer.
+
+---
+
+### 6. Bookings Table
+Stores booking details for tours.
+
+- **Booking_ID** (PK): Unique identifier for each booking.
+- **Customer_ID** (FK): Associated customer (linked to `Customers`).
+- **Tour_ID** (FK): Associated tour (linked to `Tours`).
+- **Booking_Date**: Date of booking.
+- **Total_Cost**: Total cost of the booking (default: 0.00).
+
+---
+
+### 7. Reviews Table
+Stores reviews given by customers for tourist spots.
+
+- **Review_ID** (PK): Unique identifier for each review.
+- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
+- **Customer_ID** (FK): Associated customer (linked to `Customers`).
+- **Review_Text**: Review content.
+- **Rating**: Rating given (1 to 5).
+
+---
+
+### 8. Transportation Table
+Stores details about transportation options.
+
+- **Transport_ID** (PK): Unique identifier for each transport option.
+- **Transport_Type**: Type of transport (e.g., Bus, Taxi).
+- **Cost_Per_Trip**: Cost per trip (default: 0.00).
+- **Availability**: Availability details.
+
+---
+
+### 9. Spot_Transport_Links Table
+Links transportation options to tourist spots.
+
+- **Link_ID** (PK): Unique identifier for each link.
+- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
+- **Transport_ID** (FK): Associated transport option (linked to `Transportation`).
+- **Comments**: Additional details.
+
+---
+
+### 10. Discounts Table
+Stores discount details for tours.
+
+- **Discount_ID** (PK): Unique identifier for each discount.
+- **Tour_ID** (FK): Associated tour (linked to `Tours`).
+- **Discount_Percentage**: Percentage discount (0 to 100).
+- **Start_Date**: Start date of the discount.
+- **End_Date**: End date of the discount.
+
+---
+
+### 11. Local_Shops Table
+Stores details about shops near tourist spots.
+
+- **Shop_ID** (PK): Unique identifier for each shop.
+- **Shop_Name**: Name of the shop.
+- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
+- **Product_Type**: Type of products sold.
+
+---
+
+### 12. Emergency_Contacts Table
+Stores emergency contact details for tourist spots.
+
+- **Contact_ID** (PK): Unique identifier for each contact.
+- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
+- **Contact_Type**: Type of contact (e.g., Police, Hospital).
+- **Contact_Number**: Contact number (unique).
+
+---
+
+### 13. Online_Payment Table
+Stores details about online payments for bookings.
+
+- **Payment_ID** (PK): Unique identifier for each payment.
+- **Booking_ID** (FK): Associated booking (linked to `Bookings`).
+- **Payment_Date**: Date of payment.
+- **Payment_Amount**: Amount paid.
+- **Payment_Method**: Method of payment.
+- **Payment_Status**: Status of the payment.
 ---
 
 ## SQL Queries and Results
