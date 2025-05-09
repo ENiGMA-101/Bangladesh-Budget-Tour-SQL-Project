@@ -144,40 +144,156 @@ ORDER BY Spot_Name;
 
 ---
 
-### Query 2: Find all accommodations with their destination names where price per night is less than 500 BDT
+### Query 2: Find the total number of customers who booked tours
 ```sql
-SELECT a.Name, a.Type, a.PricePerNight, d.DestinationName
-FROM Accommodations a
-JOIN Destinations d ON a.DestinationID = d.DestinationID
-WHERE a.PricePerNight < 500
-ORDER BY a.PricePerNight;
+SELECT COUNT(*) AS Total_Customers
+FROM Customers;
 ```
 
 **Result:**
-| Name                 | Type        | PricePerNight | DestinationName |
-|----------------------|-------------|---------------|-----------------|
-| China Clay Homestay  | Homestay    | 350.00        | Birishiri       |
-| Tanguar Haor Homestay| Homestay    | 400.00        | Tanguar Haor    |
-| Boga Lake Camp       | Camp        | 450.00        | Boga Lake       |
+
+![2](https://github.com/user-attachments/assets/528bf023-d93a-4341-8a70-c8a7831a3d19)
+
 
 ---
 
-### Query 3: Find the names of all the tour guides who are involved in advising
+### Query 3: Get the total revenue for each tour
 ```sql
-SELECT g.GuideName, g.Languages, g.Experience, g.SpecializedDestinations
-FROM TourGuides g
-WHERE g.SpecializedDestinations LIKE '%Advisor%'
-ORDER BY g.GuideName;
+SELECT T.Tour_Name, SUM(B.Total_Cost) AS Total_Revenue
+FROM Bookings B
+JOIN Tours T ON B.Tour_ID = T.Tour_ID
+GROUP BY T.Tour_Name
+ORDER BY Total_Revenue DESC;
 ```
 
 **Result:**
-| GuideName      | Languages            | Experience | SpecializedDestinations         |
-|----------------|----------------------|------------|---------------------------------|
-| Kamal Hossain | Bengali, English     | 7          | Ratargul Swamp Forest, Advisor |
-| Mina Begum     | Bengali, English     | 3          | Nijhum Dwip, Advisor           |
-| Rashed Khan    | Bengali, English, Chakma | 10     | Boga Lake, Advisor             |
+
+![3](https://github.com/user-attachments/assets/0d436ff1-e9ad-4119-ab3f-65482def0e97)
+
 
 ---
+
+### Query 4: List all available discounts and their validity periods
+```sql
+SELECT D.Discount_ID, T.Tour_Name, D.Discount_Percentage, D.Start_Date, D.End_Date
+FROM Discounts D
+JOIN Tours T ON D.Tour_ID = T.Tour_ID
+ORDER BY D.Start_Date;
+```
+
+**Result:**
+
+![4](https://github.com/user-attachments/assets/d0343292-dbf7-41eb-9e50-46fcd53c8835)
+
+
+---
+
+
+### Query 5: Find the reviews and average rating for each tourist spot
+```sql
+SELECT TS.Spot_Name, COUNT(R.Review_ID) AS Total_Reviews, AVG(R.Rating) AS Avg_Rating
+FROM Reviews R
+JOIN Tourist_Spots TS ON R.Spot_ID = TS.Spot_ID
+GROUP BY TS.Spot_Name
+ORDER BY Avg_Rating DESC;
+```
+
+**Result:**
+
+![5](https://github.com/user-attachments/assets/039b569c-19d6-4a9d-8eb0-5fa7be49c25b)
+
+
+---
+
+
+### Query 6: Retrieve the busiest guide (the guide assigned to the highest number of tours)
+```sql
+SELECT TG.Guide_Name, COUNT(TGA.Assignment_ID) AS Total_Assignments
+FROM Tour_Guide_Assignments TGA
+JOIN Tour_Guides TG ON TGA.Guide_ID = TG.Guide_ID
+GROUP BY TG.Guide_Name
+ORDER BY Total_Assignments DESC;
+```
+
+**Result:**
+
+![6](https://github.com/user-attachments/assets/98840fd4-ba67-459b-a9fc-15f73a823ba4)
+
+
+
+---
+
+
+### Query 7: Find customers who made payments using a specific method (e.g., 'Credit Card')
+```sql
+SELECT C.Customer_Name, C.Contact_Info, OP.Payment_Method
+FROM Online_Payment OP
+JOIN Bookings B ON OP.Booking_ID = B.Booking_ID
+JOIN Customers C ON B.Customer_ID = C.Customer_ID
+WHERE OP.Payment_Method = 'Credit Card';
+```
+
+**Result:**
+
+![7](https://github.com/user-attachments/assets/bf229c34-c39f-41f9-9b49-7c96757cffa7)
+
+
+
+---
+
+
+### Query 8: List all transportation options available for a specific tourist spot
+```sql
+SELECT TS.Spot_Name, T.Transport_Type, T.Cost_Per_Trip
+FROM Spot_Transport_Links STL
+JOIN Tourist_Spots TS ON STL.Spot_ID = TS.Spot_ID
+JOIN Transportation T ON STL.Transport_ID = T.Transport_ID
+WHERE TS.Spot_Name = 'Sajek Valley';
+```
+
+**Result:**
+
+![8](https://github.com/user-attachments/assets/202782d9-8f4d-437a-9d4a-cd04c7b38bc6)
+
+
+---
+
+
+### Query 1: Get the total number of bookings per tourist spot
+```sql
+SELECT TS.Spot_Name, COUNT(B.Booking_ID) AS Total_Bookings
+FROM Bookings B
+JOIN Tours T ON B.Tour_ID = T.Tour_ID
+JOIN Tourist_Spots TS ON T.Spot_ID = TS.Spot_ID
+GROUP BY TS.Spot_Name
+ORDER BY Total_Bookings DESC;
+```
+
+**Result:**
+
+![9](https://github.com/user-attachments/assets/be959ac9-69a3-4955-bbd0-42546e1418d6)
+
+
+
+---
+
+
+### Query 10: Retrieve emergency contact details for each tourist spot
+```sql
+SELECT TS.Spot_Name, EC.Contact_Type, EC.Contact_Number
+FROM Emergency_Contacts EC
+JOIN Tourist_Spots TS ON EC.Spot_ID = TS.Spot_ID
+ORDER BY TS.Spot_Name;
+```
+
+**Result:**
+
+![10](https://github.com/user-attachments/assets/a6a0f68f-cebc-443e-9ed0-6f553ab8b3dc)
+
+
+
+---
+
 
 ## Conclusion
 This database system provides a comprehensive solution for managing information about underrated tourist destinations in Bangladesh that can be visited on a budget. The system enables budget-conscious travelers to discover new places, find affordable accommodations, and plan their trips efficiently.
