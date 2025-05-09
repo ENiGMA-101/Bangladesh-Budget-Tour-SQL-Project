@@ -1,49 +1,51 @@
-# Tourism Database Project: Tour Underrated Places in Bangladesh at Low Cost
+# **Tourism Database Project: Tour Underrated Places in Bangladesh at Low Cost**
 
-## Topic Description
-This project focuses on creating a database system to manage information about underrated tourist destinations in Bangladesh that can be visited on a budget. The system will help tourists discover lesser-known places, understand cost structures, find suitable accommodations, explore local transportation options, and learn about the unique attractions each location offers. 
+## **1. Project Description**
 
-The database serves as a comprehensive resource for budget-conscious travelers looking to explore Bangladesh beyond the typical tourist spots.
+The "Tourism Database Project: Tour Underrated Places in Bangladesh at Low Cost" aims to organize information about underrated tourist spots in Bangladesh. The project is designed to help travel agencies, tour operators, and individual tourists efficiently plan trips at a lower cost while exploring unique destinations. The database includes data about tourist spots, tours, tour guides, customers, bookings, transportation, and discounts. It also incorporates efficient payment and emergency management systems.
+
+The database is built with a relational schema to enable seamless management of interconnected data, ensuring data integrity and consistency.
+
 
 ---
 
 ## Entity Relationship Diagram
-### Key Entities and Relationships
-1. **Destinations** - Contains information about underrated places in Bangladesh.
-2. **Accommodations** - Various lodging options available at each destination.
-3. **Attractions** - Points of interest at each destination.
-4. **Transportation** - Methods to reach destinations and move around locally.
-5. **TourPackages** - Pre-designed tour options with cost details.
-6. **TourGuides** - Information about available tour guides.
-7. **Customers** - Information about tourists using the system.
-8. **Bookings** - Records of customer reservations.
+The Entity-Relationship (ER) Diagram below visualizes the relationships between the entities in the TourismDB project. Each entity represents a table, and the relationships between them are defined using primary and foreign keys.
 
-### Entity Relationships:
-- A Destination can have multiple Accommodations (one-to-many).
-- A Destination can have multiple Attractions (one-to-many).
-- A Destination can be served by multiple Transportation options (many-to-many via `DestinationTransport`).
-- A TourPackage can include multiple Destinations (managed through package details).
-- A TourGuide can be assigned to multiple Bookings (one-to-many).
-- A Customer can make multiple Bookings (one-to-many).
-- A TourPackage can have multiple Bookings (one-to-many).
+### Entities:
+- **Tourist_Spots**: Represents the tourist spots with information like name, description, location, entry fees, and best time to visit.
+- **Tours**: Contains details about tours, including tour name, spot ID, tour fee, and duration.
+- **Tour_Guides**: Stores information about guides, including their names, contact info, language skills, and experience.
+- **Tour_Guide_Assignments**: Links tours to their assigned guides.
+- **Customers**: Includes customer details like name, contact info, and preferred language.
+- **Bookings**: Stores booking details like booking date, cost, customer ID, and tour ID.
+- **Reviews**: Allows customers to provide reviews and ratings for tourist spots.
+- **Transportation**: Provides details about available transportation, costs, and availability.
+- **Spot_Transport_Links**: Links transportation options to specific tourist spots.
+- **Discounts**: Contains information about discounts available for specific tours.
+- **Local_Shops**: Lists shops near tourist spots and their offerings.
+- **Emergency_Contacts**: Stores emergency contact details for each spot.
+- **Online_Payment**: Handles payment information for bookings.
 
 ---
 
 ## ER Diagram
 
-![ERDIAGRAM1 drawio](https://github.com/user-attachments/assets/108fde3e-e759-47fa-92f5-86603c675a2b)
 
 
 
 
 ## Schema Diagram
 
-```-- Will update from Sanjid --```
+The schema diagram illustrates the implementation of the database from the ER diagram. It shows the tables, their attributes, and the relationships between them, including primary keys (PK) and foreign keys (FK).
+
+### Schema Features:
+- **Primary Key Constraints**: Ensure each table has a unique identifier.
+- **Foreign Key Constraints**: Maintain relationships between tables.
+- **Default Values and Checks**: Ensure data integrity (e.g., non-negative experience years, valid ratings, etc.).
+- **Cascading Deletes**: Automatically remove dependent records when a parent record is deleted.
 
 
-### Tables and Attributes
-
-# Database Schema: Tourism Management System
 
 ## Tables and Attributes
 
@@ -57,8 +59,6 @@ Stores information about various tourist spots.
 - **Entry_Fee**: Entry fee for the spot (default: 0.00).
 - **Best_Time_to_Visit**: Recommended time to visit.
 
----
-
 ### 2. Tours Table
 Stores details about tours offered for tourist spots.
 
@@ -67,8 +67,6 @@ Stores details about tours offered for tourist spots.
 - **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
 - **Tour_Fee**: Fee for the tour (default: 0.00).
 - **Duration**: Duration of the tour.
-
----
 
 ### 3. Tour_Guides Table
 Stores information about tour guides.
@@ -79,7 +77,6 @@ Stores information about tour guides.
 - **Language_Skills**: Languages the guide can speak.
 - **Experience_Years**: Years of experience (must be ≥ 0).
 
----
 
 ### 4. Tour_Guide_Assignments Table
 Links guides to specific tours.
@@ -88,7 +85,6 @@ Links guides to specific tours.
 - **Tour_ID** (FK): Associated tour (linked to `Tours`).
 - **Guide_ID** (FK): Associated guide (linked to `Tour_Guides`).
 
----
 
 ### 5. Customers Table
 Stores information about customers.
@@ -98,7 +94,6 @@ Stores information about customers.
 - **Contact_Info**: Contact details (unique).
 - **Preferred_Language**: Language preferred by the customer.
 
----
 
 ### 6. Bookings Table
 Stores booking details for tours.
@@ -109,7 +104,6 @@ Stores booking details for tours.
 - **Booking_Date**: Date of booking.
 - **Total_Cost**: Total cost of the booking (default: 0.00).
 
----
 
 ### 7. Reviews Table
 Stores reviews given by customers for tourist spots.
@@ -120,7 +114,6 @@ Stores reviews given by customers for tourist spots.
 - **Review_Text**: Review content.
 - **Rating**: Rating given (1 to 5).
 
----
 
 ### 8. Transportation Table
 Stores details about transportation options.
@@ -130,7 +123,6 @@ Stores details about transportation options.
 - **Cost_Per_Trip**: Cost per trip (default: 0.00).
 - **Availability**: Availability details.
 
----
 
 ### 9. Spot_Transport_Links Table
 Links transportation options to tourist spots.
@@ -140,7 +132,6 @@ Links transportation options to tourist spots.
 - **Transport_ID** (FK): Associated transport option (linked to `Transportation`).
 - **Comments**: Additional details.
 
----
 
 ### 10. Discounts Table
 Stores discount details for tours.
@@ -151,7 +142,6 @@ Stores discount details for tours.
 - **Start_Date**: Start date of the discount.
 - **End_Date**: End date of the discount.
 
----
 
 ### 11. Local_Shops Table
 Stores details about shops near tourist spots.
@@ -161,7 +151,6 @@ Stores details about shops near tourist spots.
 - **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
 - **Product_Type**: Type of products sold.
 
----
 
 ### 12. Emergency_Contacts Table
 Stores emergency contact details for tourist spots.
@@ -171,7 +160,6 @@ Stores emergency contact details for tourist spots.
 - **Contact_Type**: Type of contact (e.g., Police, Hospital).
 - **Contact_Number**: Contact number (unique).
 
----
 
 ### 13. Online_Payment Table
 Stores details about online payments for bookings.
@@ -198,7 +186,6 @@ ORDER BY Spot_Name;
 ![1](https://github.com/user-attachments/assets/f51bc34e-5f15-48af-a451-3e952df66dd0)
 
 
----
 
 ### Query 2: Find the total number of customers who booked tours
 ```sql
@@ -211,7 +198,6 @@ FROM Customers;
 ![2](https://github.com/user-attachments/assets/528bf023-d93a-4341-8a70-c8a7831a3d19)
 
 
----
 
 ### Query 3: Get the total revenue for each tour
 ```sql
@@ -227,7 +213,6 @@ ORDER BY Total_Revenue DESC;
 ![3](https://github.com/user-attachments/assets/0d436ff1-e9ad-4119-ab3f-65482def0e97)
 
 
----
 
 ### Query 4: List all available discounts and their validity periods
 ```sql
@@ -242,7 +227,6 @@ ORDER BY D.Start_Date;
 ![4](https://github.com/user-attachments/assets/d0343292-dbf7-41eb-9e50-46fcd53c8835)
 
 
----
 
 
 ### Query 5: Find the reviews and average rating for each tourist spot
@@ -259,7 +243,6 @@ ORDER BY Avg_Rating DESC;
 ![5](https://github.com/user-attachments/assets/039b569c-19d6-4a9d-8eb0-5fa7be49c25b)
 
 
----
 
 
 ### Query 6: Retrieve the busiest guide (the guide assigned to the highest number of tours)
@@ -277,8 +260,6 @@ ORDER BY Total_Assignments DESC;
 
 
 
----
-
 
 ### Query 7: Find customers who made payments using a specific method (e.g., 'Credit Card')
 ```sql
@@ -295,8 +276,6 @@ WHERE OP.Payment_Method = 'Credit Card';
 
 
 
----
-
 
 ### Query 8: List all transportation options available for a specific tourist spot
 ```sql
@@ -312,10 +291,9 @@ WHERE TS.Spot_Name = 'Sajek Valley';
 ![8](https://github.com/user-attachments/assets/202782d9-8f4d-437a-9d4a-cd04c7b38bc6)
 
 
----
 
 
-### Query 1: Get the total number of bookings per tourist spot
+### Query 9: Get the total number of bookings per tourist spot
 ```sql
 SELECT TS.Spot_Name, COUNT(B.Booking_ID) AS Total_Bookings
 FROM Bookings B
@@ -330,8 +308,6 @@ ORDER BY Total_Bookings DESC;
 ![9](https://github.com/user-attachments/assets/be959ac9-69a3-4955-bbd0-42546e1418d6)
 
 
-
----
 
 
 ### Query 10: Retrieve emergency contact details for each tourist spot
@@ -353,5 +329,6 @@ ORDER BY TS.Spot_Name;
 
 ## Conclusion
 This database system provides a comprehensive solution for managing information about underrated tourist destinations in Bangladesh that can be visited on a budget. The system enables budget-conscious travelers to discover new places, find affordable accommodations, and plan their trips efficiently.
+The TourismDB project successfully organizes and manages data related to affordable and underrated tourist destinations in Bangladesh. It demonstrates the capability of relational databases in handling interconnected data, ensuring data consistency and integrity. This project is a valuable tool for enhancing the tourism experience in Bangladesh.
 
-For the SQL file and further details, refer to the accompanying [SQL Script](./tourismDB.sql).
+For the SQL file and further details, refer to the accompanying [SQL Script](./Latest%20one/TablesWithRandomData.sql).
