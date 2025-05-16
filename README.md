@@ -31,6 +31,7 @@ The Entity-Relationship (ER) Diagram below visualizes the relationships between 
 
 ## ER Diagram
 
+![WhatsApp Image 2025-05-12 at 15 18 53_a033ccbd](https://github.com/user-attachments/assets/cf66b96f-3be0-49b4-b19f-0bc89a8c056b)
 
 
 
@@ -45,6 +46,7 @@ The schema diagram illustrates the implementation of the database from the ER di
 - **Default Values and Checks**: Ensure data integrity (e.g., non-negative experience years, valid ratings, etc.).
 - **Cascading Deletes**: Automatically remove dependent records when a parent record is deleted.
 
+![WhatsApp Image 2025-05-12 at 14 40 09_97c23dc0](https://github.com/user-attachments/assets/33001f7b-4e42-473a-a67f-049ce3207d65)
 
 
 ## Tables and Attributes
