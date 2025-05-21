@@ -6,6 +6,22 @@ The "Tourism Database Project: Tour Underrated Places in Bangladesh at Low Cost"
 
 The database is built with a relational schema to enable seamless management of interconnected data, ensuring data integrity and consistency.
 
+**Tables :**
+-	Tourist_Spots
+-	Tours
+-	Tour_Guides
+-	Tour_Guide_Assignments
+-	Customers
+-	Bookings
+-	Reviews
+-	Transportation
+-	Spot_Transport_Links
+-	Discounts
+-	Local_Shops
+-	Emergency_Contacts
+-	Online_Payment
+-	Accommodations
+-	Accommodation_Bookings
 
 ---
 
@@ -29,6 +45,309 @@ The Entity-Relationship (ER) Diagram below visualizes the relationships between 
 
 ---
 
+
+## OVERView
+
+A normalized, scalable, and well-structured schema for a tourism information and booking system, designed for high data integrity and extensibility.
+
+---
+
+## 1. `TOURIST_SPOTS`
+
+**Stores information about tourist attractions (e.g., parks, museums, landmarks).**
+
+| Attribute              | Type                   | Constraints                   | Description                               |
+|------------------------|------------------------|-------------------------------|-------------------------------------------|
+| Spot_ID                | INT                    | PK, IDENTITY                  | Unique identifier for each spot           |
+| Spot_Name              | NVARCHAR(100)          | NOT NULL                      | Name of the tourist spot                  |
+| Location               | NVARCHAR(100)          | NOT NULL                      | Address or geographic location            |
+| Description            | NVARCHAR(MAX)          |                               | Detailed description                      |
+| Entry_Fee              | DECIMAL(10,2)          | DEFAULT 0.00                  | Entry fee                                 |
+| Best_Time_to_Visit     | NVARCHAR(50)           | NOT NULL                      | Recommended visit season/time             |
+
+**Normalization:** 3NF  
+**Relations:**  
+- 1:N → Tours, Reviews, Spot_Transport_Links, Local_Shops, Emergency_Contacts, Accommodations  
+
+---
+
+## 2. `TOURS`
+
+**Details of available tours, each linked to a specific tourist spot.**
+
+| Attribute      | Type             | Constraints          | Description                  |
+|----------------|------------------|----------------------|------------------------------|
+| Tour_ID        | INT              | PK, IDENTITY         | Unique tour identifier       |
+| Tour_Name      | NVARCHAR(100)    | NOT NULL             | Name of the tour             |
+| Spot_ID        | INT              | FK, NOT NULL         | Linked tourist spot          |
+| Tour_Fee       | DECIMAL(10,2)    | DEFAULT 0.00         | Fee for the tour             |
+| Duration       | NVARCHAR(50)     | NOT NULL             | Duration/length of the tour  |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tourist_Spots  
+- 1:N → Tour_Guide_Assignments, Bookings, Discounts  
+
+---
+
+## 3. `TOUR_GUIDES`
+
+**Information about available tour guides.**
+
+| Attribute        | Type             | Constraints                | Description                |
+|------------------|------------------|----------------------------|----------------------------|
+| Guide_ID         | INT              | PK, IDENTITY               | Unique guide identifier    |
+| Guide_Name       | NVARCHAR(100)    | NOT NULL                   | Name of the guide          |
+| Contact_Info     | NVARCHAR(100)    | UNIQUE                     | Contact details            |
+| Language_Skills  | NVARCHAR(100)    | NOT NULL                   | Languages spoken           |
+| Experience_Years | INT              | CHECK (>= 0)               | Years of experience        |
+
+**Normalization:** 3NF  
+**Relations:**  
+- 1:N → Tour_Guide_Assignments  
+
+---
+
+## 4. `TOUR_GUIDE_ASSIGNMENTS`
+
+**Assigns guides to specific tours.**
+
+| Attribute      | Type    | Constraints          | Description                |
+|----------------|---------|----------------------|----------------------------|
+| Assignment_ID  | INT     | PK, IDENTITY         | Unique assignment record   |
+| Tour_ID        | INT     | FK, NOT NULL         | Linked tour                |
+| Guide_ID       | INT     | FK, NOT NULL         | Linked guide               |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tours, Tour_Guides  
+
+---
+
+## 5. `CUSTOMERS`
+
+**Stores customer information for bookings and reviews.**
+
+| Attribute          | Type             | Constraints           | Description                  |
+|--------------------|------------------|-----------------------|------------------------------|
+| Customer_ID        | INT              | PK, IDENTITY          | Unique customer ID           |
+| Customer_Name      | NVARCHAR(100)    | NOT NULL              | Name of the customer         |
+| Contact_Info       | NVARCHAR(100)    | UNIQUE                | Contact information          |
+| Preferred_Language | NVARCHAR(50)     |                       | Language preference          |
+
+**Normalization:** 3NF  
+**Relations:**  
+- 1:N → Bookings, Reviews  
+
+---
+
+## 6. `BOOKINGS`
+
+**Records bookings of tours by customers.**
+
+| Attribute      | Type             | Constraints           | Description              |
+|----------------|------------------|-----------------------|--------------------------|
+| Booking_ID     | INT              | PK, IDENTITY          | Unique booking ID        |
+| Customer_ID    | INT              | FK, NOT NULL          | Customer                 |
+| Tour_ID        | INT              | FK, NOT NULL          | Tour booked              |
+| Booking_Date   | DATE             | NOT NULL              | Date of booking          |
+| Total_Cost     | DECIMAL(10,2)    | DEFAULT 0.00          | Total cost               |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Customers, Tours  
+- 1:N → Online_Payment, Accommodation_Bookings  
+
+---
+
+## 7. `REVIEWS`
+
+**Customer reviews for tourist spots.**
+
+| Attribute      | Type             | Constraints           | Description                      |
+|----------------|------------------|-----------------------|----------------------------------|
+| Review_ID      | INT              | PK, IDENTITY          | Unique review ID                 |
+| Spot_ID        | INT              | FK, NOT NULL          | Reviewed spot                    |
+| Customer_ID    | INT              | FK, NOT NULL          | Reviewer                         |
+| Review_Text    | NVARCHAR(MAX)    |                       | Review details                   |
+| Rating         | INT              | CHECK (1-5)           | Rating score                     |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tourist_Spots, Customers  
+
+---
+
+## 8. `TRANSPORTATION`
+
+**Available transportation types.**
+
+| Attribute      | Type            | Constraints          | Description                |
+|----------------|-----------------|----------------------|----------------------------|
+| Transport_ID   | INT             | PK, IDENTITY         | Unique transport ID        |
+| Transport_Type | NVARCHAR(50)    | NOT NULL             | Type (e.g., bus, taxi)     |
+| Cost_Per_Trip  | DECIMAL(10,2)   | DEFAULT 0.00         | Trip cost                  |
+| Availability   | NVARCHAR(50)    | NOT NULL             | Availability status        |
+
+**Normalization:** 3NF  
+**Relations:**  
+- 1:N → Spot_Transport_Links  
+
+---
+
+## 9. `SPOT_TRANSPORT_LINKS`
+
+**Links tourist spots to available transportation.**
+
+| Attribute      | Type             | Constraints           | Description                      |
+|----------------|------------------|-----------------------|----------------------------------|
+| Link_ID        | INT              | PK, IDENTITY          | Unique link ID                   |
+| Spot_ID        | INT              | FK, NOT NULL          | Linked spot                      |
+| Transport_ID   | INT              | FK, NOT NULL          | Linked transportation            |
+| Comments       | NVARCHAR(MAX)    |                       | Additional notes                 |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tourist_Spots, Transportation  
+
+---
+
+## 10. `DISCOUNTS`
+
+**Discount offers on tours.**
+
+| Attribute           | Type             | Constraints             | Description                     |
+|---------------------|------------------|-------------------------|---------------------------------|
+| Discount_ID         | INT              | PK, IDENTITY            | Unique discount ID              |
+| Tour_ID             | INT              | FK, NOT NULL            | Tour receiving discount         |
+| Discount_Percentage | DECIMAL(5,2)     | CHECK (0-100)           | Discount percent                |
+| Start_Date          | DATE             | NOT NULL                | Start date                      |
+| End_Date            | DATE             | NOT NULL                | End date                        |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tours  
+
+---
+
+## 11. `LOCAL_SHOPS`
+
+**Information about local shops near tourist spots.**
+
+| Attribute      | Type             | Constraints           | Description                      |
+|----------------|------------------|-----------------------|----------------------------------|
+| Shop_ID        | INT              | PK, IDENTITY          | Unique shop ID                   |
+| Shop_Name      | NVARCHAR(100)    | NOT NULL              | Shop name                        |
+| Spot_ID        | INT              | FK, NOT NULL          | Linked spot                      |
+| Product_Type   | NVARCHAR(100)    |                       | Type of products sold            |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tourist_Spots  
+
+---
+
+## 12. `EMERGENCY_CONTACTS`
+
+**Emergency contacts at tourist spots.**
+
+| Attribute      | Type             | Constraints           | Description                      |
+|----------------|------------------|-----------------------|----------------------------------|
+| Contact_ID     | INT              | PK, IDENTITY          | Unique contact ID                |
+| Spot_ID        | INT              | FK, NOT NULL          | Linked spot                      |
+| Contact_Type   | NVARCHAR(50)     | NOT NULL              | Type (e.g., police, medical)     |
+| Contact_Number | NVARCHAR(20)     | UNIQUE                | Contact number                   |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tourist_Spots  
+
+---
+
+## 13. `ONLINE_PAYMENT`
+
+**Tracks online payments for bookings.**
+
+| Attribute       | Type             | Constraints           | Description                      |
+|-----------------|------------------|-----------------------|----------------------------------|
+| Payment_ID      | INT              | PK, IDENTITY          | Unique payment ID                |
+| Booking_ID      | INT              | FK, NOT NULL          | Linked booking                   |
+| Payment_Date    | DATE             | NOT NULL              | Date of payment                  |
+| Payment_Amount  | DECIMAL(10,2)    | NOT NULL              | Amount paid                      |
+| Payment_Method  | NVARCHAR(50)     | NOT NULL              | Method (e.g., card, PayPal)      |
+| Payment_Status  | NVARCHAR(50)     | NOT NULL              | Status (e.g., completed)         |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Bookings  
+
+---
+
+## 14. `ACCOMMODATIONS`
+
+**Accommodation options at or near tourist spots.**
+
+| Attribute            | Type             | Constraints           | Description                      |
+|----------------------|------------------|-----------------------|----------------------------------|
+| Accommodation_ID     | INT              | PK, IDENTITY          | Unique accommodation ID          |
+| Accommodation_Name   | NVARCHAR(100)    | NOT NULL              | Name                             |
+| Spot_ID              | INT              | FK, NOT NULL          | Linked spot                      |
+| Type                 | NVARCHAR(50)     | NOT NULL              | Accommodation type               |
+| Address              | NVARCHAR(200)    |                       | Address                          |
+| Price_Per_Night      | DECIMAL(10,2)    | NOT NULL              | Price per night                  |
+| Contact_Number       | NVARCHAR(20)     |                       | Contact info                     |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Tourist_Spots  
+- 1:N → Accommodation_Bookings  
+
+---
+
+## 15. `ACCOMMODATION_BOOKINGS`
+
+**Links customer bookings to accommodations.**
+
+| Attribute                | Type             | Constraints           | Description                      |
+|--------------------------|------------------|-----------------------|----------------------------------|
+| Accommodation_Booking_ID | INT              | PK, IDENTITY          | Unique record                    |
+| Booking_ID               | INT              | FK, NOT NULL          | Linked booking                   |
+| Accommodation_ID         | INT              | FK, NOT NULL          | Linked accommodation             |
+| Check_In                 | DATE             | NOT NULL              | Check-in date                    |
+| Check_Out                | DATE             | NOT NULL              | Check-out date                   |
+| Total_Nights             | INT              | NOT NULL              | Number of nights                 |
+| Total_Cost               | DECIMAL(10,2)    | NOT NULL              | Total cost                       |
+
+**Normalization:** 3NF  
+**Relations:**  
+- N:1 → Bookings  
+- N:1 → Accommodations  
+
+---
+
+## Entity Relationship Diagram (ERD) Overview
+
+```mermaid
+erDiagram
+    TOURIST_SPOTS ||--o{ TOURS : has
+    TOURIST_SPOTS ||--o{ REVIEWS : has
+    TOURIST_SPOTS ||--o{ SPOT_TRANSPORT_LINKS : links
+    TOURIST_SPOTS ||--o{ LOCAL_SHOPS : has
+    TOURIST_SPOTS ||--o{ EMERGENCY_CONTACTS : has
+    TOURIST_SPOTS ||--o{ ACCOMMODATIONS : has
+    TOURS ||--o{ TOUR_GUIDE_ASSIGNMENTS : assigns
+    TOURS ||--o{ BOOKINGS : booked
+    TOURS ||--o{ DISCOUNTS : offers
+    TOUR_GUIDES ||--o{ TOUR_GUIDE_ASSIGNMENTS : assigned
+    CUSTOMERS ||--o{ BOOKINGS : books
+    CUSTOMERS ||--o{ REVIEWS : reviews
+    BOOKINGS ||--o{ ONLINE_PAYMENT : pays
+    BOOKINGS ||--o{ ACCOMMODATION_BOOKINGS : reserves
+    ACCOMMODATIONS ||--o{ ACCOMMODATION_BOOKINGS : reserved
+    TRANSPORTATION ||--o{ SPOT_TRANSPORT_LINKS : links
+```
+
+
 ## ER Diagram
 
 ![WhatsApp Image 2025-05-12 at 15 18 53_a033ccbd](https://github.com/user-attachments/assets/cf66b96f-3be0-49b4-b19f-0bc89a8c056b)
@@ -48,130 +367,6 @@ The schema diagram illustrates the implementation of the database from the ER di
 
 ![WhatsApp Image 2025-05-12 at 14 40 09_97c23dc0](https://github.com/user-attachments/assets/33001f7b-4e42-473a-a67f-049ce3207d65)
 
-
-## Tables and Attributes
-
-### 1. Tourist_Spots Table
-Stores information about various tourist spots.
-
-- **Spot_ID** (PK): Unique identifier for each tourist spot.
-- **Spot_Name**: Name of the tourist spot.
-- **Location**: Location of the tourist spot.
-- **Description**: Brief description of the spot.
-- **Entry_Fee**: Entry fee for the spot (default: 0.00).
-- **Best_Time_to_Visit**: Recommended time to visit.
-
-### 2. Tours Table
-Stores details about tours offered for tourist spots.
-
-- **Tour_ID** (PK): Unique identifier for each tour.
-- **Tour_Name**: Name of the tour.
-- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
-- **Tour_Fee**: Fee for the tour (default: 0.00).
-- **Duration**: Duration of the tour.
-
-### 3. Tour_Guides Table
-Stores information about tour guides.
-
-- **Guide_ID** (PK): Unique identifier for each guide.
-- **Guide_Name**: Name of the tour guide.
-- **Contact_Info**: Contact details (unique).
-- **Language_Skills**: Languages the guide can speak.
-- **Experience_Years**: Years of experience (must be ≥ 0).
-
-
-### 4. Tour_Guide_Assignments Table
-Links guides to specific tours.
-
-- **Assignment_ID** (PK): Unique identifier for each assignment.
-- **Tour_ID** (FK): Associated tour (linked to `Tours`).
-- **Guide_ID** (FK): Associated guide (linked to `Tour_Guides`).
-
-
-### 5. Customers Table
-Stores information about customers.
-
-- **Customer_ID** (PK): Unique identifier for each customer.
-- **Customer_Name**: Name of the customer.
-- **Contact_Info**: Contact details (unique).
-- **Preferred_Language**: Language preferred by the customer.
-
-
-### 6. Bookings Table
-Stores booking details for tours.
-
-- **Booking_ID** (PK): Unique identifier for each booking.
-- **Customer_ID** (FK): Associated customer (linked to `Customers`).
-- **Tour_ID** (FK): Associated tour (linked to `Tours`).
-- **Booking_Date**: Date of booking.
-- **Total_Cost**: Total cost of the booking (default: 0.00).
-
-
-### 7. Reviews Table
-Stores reviews given by customers for tourist spots.
-
-- **Review_ID** (PK): Unique identifier for each review.
-- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
-- **Customer_ID** (FK): Associated customer (linked to `Customers`).
-- **Review_Text**: Review content.
-- **Rating**: Rating given (1 to 5).
-
-
-### 8. Transportation Table
-Stores details about transportation options.
-
-- **Transport_ID** (PK): Unique identifier for each transport option.
-- **Transport_Type**: Type of transport (e.g., Bus, Taxi).
-- **Cost_Per_Trip**: Cost per trip (default: 0.00).
-- **Availability**: Availability details.
-
-
-### 9. Spot_Transport_Links Table
-Links transportation options to tourist spots.
-
-- **Link_ID** (PK): Unique identifier for each link.
-- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
-- **Transport_ID** (FK): Associated transport option (linked to `Transportation`).
-- **Comments**: Additional details.
-
-
-### 10. Discounts Table
-Stores discount details for tours.
-
-- **Discount_ID** (PK): Unique identifier for each discount.
-- **Tour_ID** (FK): Associated tour (linked to `Tours`).
-- **Discount_Percentage**: Percentage discount (0 to 100).
-- **Start_Date**: Start date of the discount.
-- **End_Date**: End date of the discount.
-
-
-### 11. Local_Shops Table
-Stores details about shops near tourist spots.
-
-- **Shop_ID** (PK): Unique identifier for each shop.
-- **Shop_Name**: Name of the shop.
-- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
-- **Product_Type**: Type of products sold.
-
-
-### 12. Emergency_Contacts Table
-Stores emergency contact details for tourist spots.
-
-- **Contact_ID** (PK): Unique identifier for each contact.
-- **Spot_ID** (FK): Associated tourist spot (linked to `Tourist_Spots`).
-- **Contact_Type**: Type of contact (e.g., Police, Hospital).
-- **Contact_Number**: Contact number (unique).
-
-
-### 13. Online_Payment Table
-Stores details about online payments for bookings.
-
-- **Payment_ID** (PK): Unique identifier for each payment.
-- **Booking_ID** (FK): Associated booking (linked to `Bookings`).
-- **Payment_Date**: Date of payment.
-- **Payment_Amount**: Amount paid.
-- **Payment_Method**: Method of payment.
-- **Payment_Status**: Status of the payment.
 ---
 
 ## SQL Queries and Results
