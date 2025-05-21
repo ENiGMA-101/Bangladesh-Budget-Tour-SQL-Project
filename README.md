@@ -369,156 +369,199 @@ The schema diagram illustrates the implementation of the database from the ER di
 
 ---
 
-## SQL Queries and Results
+# SQL Queries and Results
 
-### Query 1: Retrieve all tourist spots with their descriptions and entry fees
+---
+
+## 1. 🏞️ List All Tourist Spots with Their Entry Fees
+
 ```sql
-SELECT Spot_ID, Spot_Name, Description, Entry_Fee
+SELECT Spot_Name, Location, Entry_Fee
 FROM Tourist_Spots
 ORDER BY Spot_Name;
 ```
 
 **Result:**
 
-![1](https://github.com/user-attachments/assets/f51bc34e-5f15-48af-a451-3e952df66dd0)
+![image](https://github.com/user-attachments/assets/a41665f8-faab-4c05-89f3-996853e3f38c)
 
 
 
-### Query 2: Find the total number of customers who booked tours
+---
+
+## 2. 🚐 Show All Tours and Their Related Tourist Spot
 ```sql
-SELECT COUNT(*) AS Total_Customers
-FROM Customers;
+SELECT T.Tour_Name, S.Spot_Name, T.Tour_Fee, T.Duration
+FROM Tours T
+JOIN Tourist_Spots S ON T.Spot_ID = S.Spot_ID;
 ```
 
 **Result:**
 
-![2](https://github.com/user-attachments/assets/528bf023-d93a-4341-8a70-c8a7831a3d19)
+![image](https://github.com/user-attachments/assets/2fb8e94d-2336-45dc-96e0-03395352b251)
 
 
 
-### Query 3: Get the total revenue for each tour
+
+## 3. 🧑‍💼 Find All Available Guides and Their Experience
+
 ```sql
-SELECT T.Tour_Name, SUM(B.Total_Cost) AS Total_Revenue
+SELECT Guide_Name, Language_Skills, Experience_Years
+FROM Tour_Guides;
+```
+
+**Result:**
+
+![image](https://github.com/user-attachments/assets/e46afcc5-c16c-4791-a5a6-425dc9980211)
+
+
+---
+
+## 4. 🗂️ See Which Guide Is Assigned to Which Tour
+
+```sql
+SELECT TG.Guide_Name, T.Tour_Name
+FROM Tour_Guide_Assignments GA
+JOIN Tour_Guides TG ON GA.Guide_ID = TG.Guide_ID
+JOIN Tours T ON GA.Tour_ID = T.Tour_ID
+ORDER BY TG.Guide_Name;
+```
+
+**Result:**
+
+![image](https://github.com/user-attachments/assets/b3b9807c-798d-409c-8d4c-9c30bc71124a)
+
+
+---
+
+## 5. 👥 List All Customers Who Booked a Tour
+
+```sql
+SELECT DISTINCT C.Customer_Name, C.Contact_Info
 FROM Bookings B
-JOIN Tours T ON B.Tour_ID = T.Tour_ID
-GROUP BY T.Tour_Name
-ORDER BY Total_Revenue DESC;
+JOIN Customers C ON B.Customer_ID = C.Customer_ID;
 ```
 
 **Result:**
 
-![3](https://github.com/user-attachments/assets/0d436ff1-e9ad-4119-ab3f-65482def0e97)
+![image](https://github.com/user-attachments/assets/1fab7b3e-0372-45c4-99fb-a7778ad29f96)
 
 
+---
 
-### Query 4: List all available discounts and their validity periods
+## 6. 📅 Show Bookings with Customer, Tour Name, and Booking Date
+
 ```sql
-SELECT D.Discount_ID, T.Tour_Name, D.Discount_Percentage, D.Start_Date, D.End_Date
+SELECT C.Customer_Name, T.Tour_Name, B.Booking_Date, B.Total_Cost
+FROM Bookings B
+JOIN Customers C ON B.Customer_ID = C.Customer_ID
+JOIN Tours T ON B.Tour_ID = T.Tour_ID
+ORDER BY B.Booking_Date DESC;
+```
+
+**Result:**
+
+![image](https://github.com/user-attachments/assets/6e75ee17-6ff1-4bf3-98ba-c53f3da46f80)
+
+
+---
+
+## 7. ⭐ Display Reviews for a Spot (e.g., "Sajek Valley")
+
+```sql
+SELECT C.Customer_Name, R.Review_Text, R.Rating
+FROM Reviews R
+JOIN Customers C ON R.Customer_ID = C.Customer_ID
+JOIN Tourist_Spots S ON R.Spot_ID = S.Spot_ID
+WHERE S.Spot_Name = 'Sajek Valley';
+```
+
+**Result:**
+
+![image](https://github.com/user-attachments/assets/a1381543-9d66-44b2-a3a0-92d6fba9a888)
+
+
+---
+
+## 8. 🚕 List All Transport Types for a Spot (e.g., "Cox's Bazar")
+
+```sql
+SELECT S.Spot_Name, T.Transport_Type, T.Cost_Per_Trip
+FROM Spot_Transport_Links STL
+JOIN Tourist_Spots S ON STL.Spot_ID = S.Spot_ID
+JOIN Transportation T ON STL.Transport_ID = T.Transport_ID
+WHERE S.Spot_Name = 'Cox''s Bazar';
+```
+
+**Result:**
+
+![image](https://github.com/user-attachments/assets/bc9b7767-c55c-4e58-98ee-f57a2c191200)
+
+
+---
+
+## 9. 💸 Show Current Discounts for Tours
+
+```sql
+SELECT T.Tour_Name, D.Discount_Percentage, D.Start_Date, D.End_Date
 FROM Discounts D
 JOIN Tours T ON D.Tour_ID = T.Tour_ID
-ORDER BY D.Start_Date;
+WHERE GETDATE() BETWEEN D.Start_Date AND D.End_Date;
 ```
 
 **Result:**
 
-![4](https://github.com/user-attachments/assets/d0343292-dbf7-41eb-9e50-46fcd53c8835)
+![image](https://github.com/user-attachments/assets/462eb4cc-4a3a-497a-91d3-d1f1fce5505f)
 
 
+---
 
+## 10. 🏨 List All Accommodations at a Spot (e.g., "Srimangal")
 
-### Query 5: Find the reviews and average rating for each tourist spot
 ```sql
-SELECT TS.Spot_Name, COUNT(R.Review_ID) AS Total_Reviews, AVG(R.Rating) AS Avg_Rating
-FROM Reviews R
-JOIN Tourist_Spots TS ON R.Spot_ID = TS.Spot_ID
-GROUP BY TS.Spot_Name
-ORDER BY Avg_Rating DESC;
+SELECT S.Spot_Name, A.Accommodation_Name, A.Type, A.Price_Per_Night
+FROM Accommodations A
+JOIN Tourist_Spots S ON A.Spot_ID = S.Spot_ID
+WHERE S.Spot_Name = 'Srimangal';
 ```
 
 **Result:**
 
-![5](https://github.com/user-attachments/assets/039b569c-19d6-4a9d-8eb0-5fa7be49c25b)
+![image](https://github.com/user-attachments/assets/ca30d7fa-3823-4a8d-996b-51a3d7f0244f)
 
 
+---
 
+## 11. 🚨 Show All Emergency Contacts for a Spot (e.g., "Sundarbans")
 
-### Query 6: Retrieve the busiest guide (the guide assigned to the highest number of tours)
 ```sql
-SELECT TG.Guide_Name, COUNT(TGA.Assignment_ID) AS Total_Assignments
-FROM Tour_Guide_Assignments TGA
-JOIN Tour_Guides TG ON TGA.Guide_ID = TG.Guide_ID
-GROUP BY TG.Guide_Name
-ORDER BY Total_Assignments DESC;
+SELECT S.Spot_Name, E.Contact_Type, E.Contact_Number
+FROM Emergency_Contacts E
+JOIN Tourist_Spots S ON E.Spot_ID = S.Spot_ID
+WHERE S.Spot_Name = 'Sundarbans';
 ```
 
 **Result:**
 
-![6](https://github.com/user-attachments/assets/98840fd4-ba67-459b-a9fc-15f73a823ba4)
+![image](https://github.com/user-attachments/assets/e8e7ae60-7157-4464-88e4-86b61a39728b)
 
 
+---
 
+## 12. 🏡 Find All Bookings with Accommodation Details
 
-### Query 7: Find customers who made payments using a specific method (e.g., 'Credit Card')
 ```sql
-SELECT C.Customer_Name, C.Contact_Info, OP.Payment_Method
-FROM Online_Payment OP
-JOIN Bookings B ON OP.Booking_ID = B.Booking_ID
+SELECT C.Customer_Name, A.Accommodation_Name, AB.Check_In, AB.Check_Out, AB.Total_Cost
+FROM Accommodation_Bookings AB
+JOIN Bookings B ON AB.Booking_ID = B.Booking_ID
 JOIN Customers C ON B.Customer_ID = C.Customer_ID
-WHERE OP.Payment_Method = 'Credit Card';
+JOIN Accommodations A ON AB.Accommodation_ID = A.Accommodation_ID
+ORDER BY AB.Check_In DESC;
 ```
 
 **Result:**
 
-![7](https://github.com/user-attachments/assets/bf229c34-c39f-41f9-9b49-7c96757cffa7)
-
-
-
-
-### Query 8: List all transportation options available for a specific tourist spot
-```sql
-SELECT TS.Spot_Name, T.Transport_Type, T.Cost_Per_Trip
-FROM Spot_Transport_Links STL
-JOIN Tourist_Spots TS ON STL.Spot_ID = TS.Spot_ID
-JOIN Transportation T ON STL.Transport_ID = T.Transport_ID
-WHERE TS.Spot_Name = 'Sajek Valley';
-```
-
-**Result:**
-
-![8](https://github.com/user-attachments/assets/202782d9-8f4d-437a-9d4a-cd04c7b38bc6)
-
-
-
-
-### Query 9: Get the total number of bookings per tourist spot
-```sql
-SELECT TS.Spot_Name, COUNT(B.Booking_ID) AS Total_Bookings
-FROM Bookings B
-JOIN Tours T ON B.Tour_ID = T.Tour_ID
-JOIN Tourist_Spots TS ON T.Spot_ID = TS.Spot_ID
-GROUP BY TS.Spot_Name
-ORDER BY Total_Bookings DESC;
-```
-
-**Result:**
-
-![9](https://github.com/user-attachments/assets/be959ac9-69a3-4955-bbd0-42546e1418d6)
-
-
-
-
-### Query 10: Retrieve emergency contact details for each tourist spot
-```sql
-SELECT TS.Spot_Name, EC.Contact_Type, EC.Contact_Number
-FROM Emergency_Contacts EC
-JOIN Tourist_Spots TS ON EC.Spot_ID = TS.Spot_ID
-ORDER BY TS.Spot_Name;
-```
-
-**Result:**
-
-![10](https://github.com/user-attachments/assets/a6a0f68f-cebc-443e-9ed0-6f553ab8b3dc)
-
+![image](https://github.com/user-attachments/assets/19d98510-6f54-4f1a-ad9e-37e37f1604de)
 
 
 ---
