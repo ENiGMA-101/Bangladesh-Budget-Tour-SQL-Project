@@ -523,71 +523,107 @@ ORDER BY TS.Spot_Name;
 
 ---
 
-# **Complex Engineering Problem (CEP) Explanation**
+# Complex Engineering Problems (CEP) Mapping
 
-
-### **Why is this Project a Complex Engineering Problem?**
-
-The **"Tourism Database Project"** qualifies as a **Complex Engineering Problem (CEP)** because it involves diverse technical, operational, and societal challenges. The project requires in-depth engineering knowledge, careful design, and innovative solutions to address interconnected sub-problems. Below, we discuss how this project meets the key attributes of a CEP.
+This document demonstrates how the project’s database and system design for **“Tour Underrated Places in Bangladesh at Low Cost”** aligns with international criteria for complex engineering problems (CEP), problem-solving (P), and activities (A). The mapping illustrates both theoretical and practical engineering excellence.
 
 ---
 
-### **Attributes of a Complex Engineering Problem in this Project**
+## Knowledge Profile (K) – CEP Attributes
 
-#### **1. Depth of Knowledge Required (P1)**
-This project cannot be resolved without applying in-depth engineering knowledge in:
-- **Database Design**: The relational schema is developed using theoretical principles like normalization, foreign key relationships, and cascading rules.
-- **SQL and Query Optimization**: Advanced SQL techniques are used to manage data and retrieve meaningful insights efficiently.
-- **Scalability and Integrity**: The database must support growing data (e.g., more tourist spots, customers, bookings) while maintaining performance and data integrity.
-
-#### **2. Range of Conflicting Requirements (P2)**
-The project involves balancing conflicting requirements from multiple stakeholders:
-- **Tourists** demand affordable and user-friendly booking systems.
-- **Travel Agencies** aim for maximized revenue and efficient operations.
-- **Database Administrators** focus on maintaining integrity, scalability, and security.
-
-These conflicting needs make the problem challenging and require trade-offs in design and implementation.
-
-#### **3. Depth of Analysis Required (P3)**
-The solution requires abstract thinking and originality:
-- Abstracting real-world tourism requirements into a relational database model.
-- Designing queries to handle complex scenarios, such as calculating total revenue, managing guide assignments, and evaluating tourist reviews.
-- Handling edge cases like overlapping discounts or invalid payment statuses.
-
-#### **4. Familiarity with Issues (P4)**
-The issues addressed in this project are not frequently encountered in standard database design:
-- Integrating tourism-specific features such as emergency contacts, local shops, and transportation links.
-- Supporting multilingual data for diverse customer groups.
-- Maintaining flexibility for future enhancements like loyalty programs or dynamic pricing.
-
-#### **5. Extent of Applicable Codes (P5)**
-The project adheres to industry standards and best practices in:
-- **Database Design**: Following normalization principles and enforcing data constraints.
-- **Security Practices**: Ensuring payment and customer data are secure.
-- **Scalability**: Ensuring the database can handle large datasets efficiently.
-
-#### **6. Extent of Stakeholder Involvement and Conflicting Requirements (P6)**
-The project involves diverse stakeholders:
-- **Tourists**: Need access to affordable tours, reviews, and transportation options.
-- **Travel Agencies**: Require detailed operational reports and revenue analysis.
-- **Tour Guides**: Need fair assignment to tours.
-- **Administrators**: Must manage and maintain the database efficiently.
-
-Each group has varying priorities, leading to conflicting requirements that must be balanced.
-
-#### **7. Interdependence (P7)**
-The project involves multiple interdependent components:
-- **Tourist Spots** depend on transportation and reviews for accessibility and popularity.
-- **Tours** link to spots, guides, customers, and discounts.
-- **Bookings** rely on customers, tours, and payment systems.
-- **Emergency Contacts** and **Local Shops** enhance tourist safety and experience.
-
-Failure in one component (e.g., improper guide assignment or payment issues) could disrupt the entire system.
+| Attribute | Description                                                                                                   |
+|-----------|--------------------------------------------------------------------------------------------------------------|
+| **K1**    | Systematic, theory-based understanding of the natural sciences applicable to the discipline                   |
+| **K2**    | Conceptually-based mathematics, numerical analysis, statistics, and formal aspects of computer science        |
+| **K3**    | Systematic, theory-based formulation of engineering fundamentals                                              |
+| **K4**    | Specialist knowledge providing theoretical frameworks for accepted practice                                   |
+| **K5**    | Knowledge that supports engineering design in a practice area                                                 |
+| **K6**    | Knowledge of engineering practice (technology)                                                                |
+| **K7**    | Role of engineering in society, ethics, social, economic, cultural, environmental impact                     |
+| **K8**    | Engagement with selected knowledge in the research literature of the discipline                               |
 
 ---
 
-## Conclusion
-This database system provides a comprehensive solution for managing information about underrated tourist destinations in Bangladesh that can be visited on a budget. The system enables budget-conscious travelers to discover new places, find affordable accommodations, and plan their trips efficiently.
-The TourismDB project successfully organizes and manages data related to affordable and underrated tourist destinations in Bangladesh. It demonstrates the capability of relational databases in handling interconnected data, ensuring data consistency and integrity. This project is a valuable tool for enhancing the tourism experience in Bangladesh.
+### Mapping CEP Attributes to Project
+
+- **K1: Theory-based Understanding of Natural Sciences**
+  - Use of geographical, environmental, and seasonal factors (`Best_Time_to_Visit` in `Tourist_Spots`)
+  - Ensures tourists receive relevant info on nature, climate, and local conditions
+- **K2: Mathematics, Analysis, Computer Science**
+  - Database design: tables, keys, constraints, SQL queries; data integrity
+  - Data analytics: tourist flows, pricing, reviews, discount optimization
+- **K3: Engineering Fundamentals**
+  - Relational schema design (PK/FK, normalization) for robust data management
+  - Logical connections: Tours, Spots, Bookings, Guides, Transportation
+- **K4: Specialist Knowledge**
+  - Domain expertise: structure data for shops, accommodations, transport
+  - Integrating best practices from tourism & software fields
+- **K5: Design Knowledge**
+  - Schema supports real-world operations: bookings, guide assignment, payment, reviews
+  - Enables efficient, low-cost tour management and customer service
+- **K6: Engineering Practice (Technology)**
+  - Online booking, payment, guide assignment
+  - Technology for seamless info and service integration
+- **K7: Engineering in Society, Ethics, Professionalism**
+  - Promotes lesser-known regions, supports local business/communities
+  - Safety (emergency contacts), privacy (customer info), sustainability (eco-options)
+- **K8: Engagement with Research**
+  - Informed by tourism trends, customer needs, cost-effective solutions
+  - Schema evolves with research and user feedback
+
+---
+
+### CEP Attribute Example Table Mapping
+
+| CEP | Example Table/Feature                | Explanation                                              |
+|-----|--------------------------------------|----------------------------------------------------------|
+| K1  | Tourist_Spots (Best_Time_to_Visit)   | Scientific/geographical info for tourists                |
+| K2  | SQL Queries, Discounts, Reviews      | Data analytics, optimization, computer science applied   |
+| K3  | PK/FK, Constraints                   | Systematic, logical database design                      |
+| K4  | All normalized tables                | Applied tourism and IT knowledge                         |
+| K5  | Bookings, Assignments, Transport     | Practical tour management functions                      |
+| K6  | Online_Payment, Accommodations       | Technology solutions in practice                         |
+| K7  | Emergency_Contacts, Shops, Reviews   | Societal, safety, sustainability, and ethics             |
+| K8  | Discounts, evolving schema           | Based on research and industry best practices            |
+
+---
+
+## CEP Problem Solving Mapping (P)
+
+| Attribute | Description                                                                                                                           | Project Connection Example                                                                                       |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| **P1**    | Depth of knowledge required                                                                                                           | Complex relational schema, advanced SQL, payment integration (requires deep knowledge)                           |
+| **P2**    | Range of conflicting requirements                                                                                                     | Balancing low-cost, comfort, business needs, privacy, technical feasibility                                      |
+| **P3**    | Depth of analysis required                                                                                                            | Creative solutions for dynamic discounts, local economic engagement, new spot promotion                          |
+| **P4**    | Familiarity of issues                                                                                                                 | Integration of local shops, emergency contacts, lesser-known spots                                               |
+| **P5**    | Extent of applicable codes                                                                                                            | Payment security, data privacy, tourism regulations                                                              |
+| **P6**    | Stakeholder involvement & conflicts                                                                                                   | Tourists, guides, shopkeepers, transport, authorities—diverse, sometimes conflicting needs                       |
+| **P7**    | Interdependence                                                                                                                       | Integrated system: bookings, payments, reviews, transport, discounts, accommodations                             |
+
+---
+
+## Complex Engineering Activities (A) Mapping
+
+| Attribute | Description                                                                                 | Project Connection Example                                                                                       |
+|-----------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| **A1**    | Range of resources                                                                         | People (tourists, guides, shop owners), money (fees, payments, discounts), technology, materials, information    |
+| **A2**    | Level of interaction                                                                       | Resolving technical, organizational, and real-world trade-offs among many actors                                 |
+| **A3**    | Innovation                                                                                 | Integrates local business, dynamic discounts, research-informed approaches                                       |
+| **A4**    | Consequences for society and environment                                                   | Boosts rural economies, supports sustainability, promotes eco-tourism                                            |
+| **A5**    | Familiarity                                                                                | Goes beyond standard travel apps: rural tourism, local integration, complex logistics                            |
+
+---
+
+## 📊 **Summary**
+
+The project **“Tour Underrated Places in Bangladesh at Low Cost”** exemplifies engineering excellence by:
+
+- **Integrating advanced theory and practice** (K)
+- **Solving multifaceted, original problems** (P)
+- **Orchestrating diverse resources and innovation** (A)
+
+It not only addresses technical and organizational needs, but also promotes social, economic, and environmental benefits—demonstrating the full breadth of complex engineering in a real-world context.
+
+---
 
 For the SQL file and further details, refer to the accompanying [SQL Script](./Latest%20one/TablesWithRandomData.sql).
